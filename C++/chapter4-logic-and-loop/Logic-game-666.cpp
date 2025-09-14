@@ -20,10 +20,10 @@ int main()
                         if (A == 1 && B == 1 && C == 1 && D == 1)
                         {
                             thu = 1;
-                            cout << "dt ranking " << dt << endl;
-                            cout << "hz ranking " << hz << endl;
                             cout << "py ranking " << py << endl;
+                            cout << "dt ranking " << dt << endl;
                             cout << "t ranking " << t << endl;
+                            cout << "hz ranking " << hz << endl;
                         }
                     }
     if (thu == 0)
