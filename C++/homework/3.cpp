@@ -1,45 +1,19 @@
-// 计算邮费
 #include <iostream>
-#include <iomanip>
+#include <cmath>
 using namespace std;
 
 int main()
 {
-    int n;
-    cin >> n;
-    for(int i = 1 ; i <= n ; i ++)
+    double x = 0.0 , a = 0.0 , e = 0.0;
+    cin >> x >> a >> e;
+    int n = 0;
+    int i = 0;
+    double t = abs(x / pow(a , n));
+    while (t >= e)
     {
-        float a = 0.0;
-        cin >> a;
-        char b;
-        cin >> b;
-        float c = 0.0;
-        if (b == 'y')
-        {
-            if (a <= 1)
-            {
-                c = 0.8 * a + 2;
-                cout << fixed << setprecision(1) << c << endl;
-            }
-            else
-            {
-                c = 0.5 * (a - 1.0) + 2.8;
-                cout << fixed << setprecision(1) << c << endl;
-            }
-        }
-        else
-        {
-            if (a <= 1)
-            {
-                c = 0.8 * a;
-                cout << fixed << setprecision(1) << c << endl;
-            }
-            else
-            {
-                c = 0.5 * (a - 1.0) + 0.8;
-                cout << fixed << setprecision(1) << c << endl;
-            }
-        }
+        n ++;
+        t = abs(x / pow(a , n));
     }
+    cout << n - 1 << endl;
     return 0;
 }

@@ -3,7 +3,7 @@ using namespace std;
 
 int main() {
     for (int a = 1; a <= 5; a++) {
-        for (int b = 1; b <= 5; b++) {
+        for (int b = 1; b <= 5; b++) {// 如需使用if continue，需要加花括号，因为只有严格连续的for才能省略
             if (b == a) continue;
             for (int c = 1; c <= 5; c++) {
                 if (c == a || c == b) continue;
