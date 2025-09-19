@@ -28,7 +28,6 @@ int main()
             y = 1;
             z = 0;
         }
-        
     }
     return 0;
 }
