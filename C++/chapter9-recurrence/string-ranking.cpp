@@ -16,7 +16,8 @@ void permute(string str, int left, int right, vector<string> &result) {// 取引
 }
 
 int main() {
-    string chars = "abcd";
+    string chars;
+    cin >> chars;
     vector<string> permutations;
     
     permute(chars, 0, chars.length() - 1, permutations);
@@ -24,7 +25,7 @@ int main() {
                                                    // 该程序只保证全交换，不保证全字典序
     
     for (const auto &p : permutations) {
-        cout << p << " ";
+        cout << p << endl;
     }
     cout << endl;
     
