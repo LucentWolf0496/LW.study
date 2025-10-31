@@ -2,12 +2,9 @@
 #include <vector>
 using namespace std;
 
-
-
 int main(){
-    do {
-        int n = 0;
-        cin >> n;
+    int n = 0;
+    while(cin >> n){
         if (n == 0)
             return 0; 
 
@@ -52,7 +49,6 @@ int main(){
         if (xmin <= xmax && ymin <= ymax)
             cout << "Yes" << endl;
         else
-            cout << "No" << endl;
-            
-    }while(1);
+            cout << "No" << endl;        
+    }
 }
