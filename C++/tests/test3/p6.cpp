@@ -6,7 +6,7 @@ using namespace std;
 int main(){
     int n = 0;
     cin >> n;
-    cin.ignore();
+    cin.ignore();// 用getline之前要清空输入缓冲栏
     vector<string> list;
     for (int i = 0 ; i < n ; i ++){
         string temp;

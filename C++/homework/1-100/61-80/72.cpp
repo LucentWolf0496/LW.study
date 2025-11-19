@@ -3,7 +3,7 @@
 using namespace std;// 一个类似八皇后但是各有千秋的棋盘问题，safe判断更简单，但是递归层面稍难
 
 vector<int> list;// 思维：行列挑一个固定而非存储坐标，简化代码，避免重复，只存每行对应的列即可
-int temp;
+int temp = 0;
 
 bool safe(int x , int y){
     for(int i = 0 ; i < x ; i ++){

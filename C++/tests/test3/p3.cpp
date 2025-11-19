@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-using namespace std;
+using namespace std;// 对time的记录类似跳绳游戏，从而便于更新状态
 
 int main() {
     int n;

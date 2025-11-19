@@ -22,7 +22,7 @@ int main() {
             right[st.back()] = i;
             st.pop_back();
         }
-        // 栈顶元素是当前元素的左边界
+        // (对栈清除处理结束之后的）栈顶元素是当前元素的左边界
         left[i] = st.empty() ? -1 : st.back();
         st.push_back(i);
     }
