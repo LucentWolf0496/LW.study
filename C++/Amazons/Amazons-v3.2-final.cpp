@@ -34,10 +34,10 @@ const auto TIME_LIMIT1 = std::chrono::milliseconds(1970); // 1.97秒时间限制
 std::chrono::high_resolution_clock::time_point startTime1; // 搜索开始时间点
 vector<vector<int>> gridInfo(8 , vector<int> (8 , 0));// 先x后y，记录棋盘状态，未被占据为0
 vector<vector<int>> gridUndo(8 , vector<int> (8 , 0));// 悔棋暂存数组
-vector<int> dx = {-1 , -1 , -1 , 0 , 0 , 1 , 1 , 1};// 8个方向
-vector<int> dy = {-1 , 0 , 1 , -1 , 1 , -1 , 0 , 1};// 8个方向
-vector<int> x4 = {1 , 0 , -1 , 0};// 4个方向
-vector<int> y4 = {0 , 1 , 0 , -1};// 4个方向
+int dx[8] = {-1 , -1 , -1 , 0 , 0 , 1 , 1 , 1};// 8个方向，原生数组压缩时间！！
+int dy[8] = {-1 , 0 , 1 , -1 , 1 , -1 , 0 , 1};// 8个方向
+int x4[4] = {1 , 0 , -1 , 0};// 4个方向
+int y4[4] = {0 , 1 , 0 , -1};// 4个方向
 random_device rd;
 mt19937 gen(rd());// 随机数生成引擎
 struct Move {// 结构体打包一次行动
@@ -89,7 +89,7 @@ int randomNum();// 函数20：生成1-10000随机整数
 double evaluate(const vector<vector<int>> &table , int botColor , int round);// 函数21：评估函数中控模块
 int QueenMove(const vector<vector<int>> &table , int botColor);// 函数22：QueenMove模块
 int KingMove(const vector<vector<int>> &table , int botColor);// 函数23：KingMove模块
-void dfs_partition(const vector<vector<int>>& table, vector<vector<bool>>& visited, 
+void dfs_partition(const vector<vector<int>>& table, bool visited[8][8], 
                    int r, int c, int botColor, ComponentInfo& info);// 函数24：PartitionScore的DFS过程
 int PartitionScore(const vector<vector<int>> &table , int botColor);// 函数25：PartitionScore模块
 double ABSearch(vector<vector<int>> &table , int depth , 
@@ -891,7 +891,7 @@ int KingMove(const vector<vector<int>> &table , int botColor){
 }
 
 // 函数24：PartitionScore的DFS过程
-void dfs_partition(const vector<vector<int>>& table , vector<vector<bool>>& visited , 
+void dfs_partition(const vector<vector<int>>& table , bool visited[8][8] , 
                    int r , int c , int botColor , ComponentInfo& info) {
     if (!inMap(r, c) || visited[r][c] || table[r][c] == 3) return;
     if (table[r][c] == 0) info.size ++;// 更新组件信息
@@ -905,7 +905,7 @@ void dfs_partition(const vector<vector<int>>& table , vector<vector<bool>>& visi
 
 // 函数25：PartitionScore模块
 int PartitionScore(const vector<vector<int>> &table , int botColor) {
-    vector<vector<bool>> visited(8 , vector<bool>(8 , false));
+    bool visited[8][8] = { };
     double total_score = 0.0;
     for (int r = 0 ; r < 8 ; ++ r) {
         for (int c = 0 ; c < 8 ; ++ c) {
