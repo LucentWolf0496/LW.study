@@ -39,7 +39,7 @@ class CRectangle{
 CRectangle::CRectangle(int w_,int h_){
     w = w_;
     h = h_;
-    nTotalNumber ++;// 存在缺陷？？复制构造函数没有写出来，是缺省的，就不会让矩形数目+1
+    nTotalNumber ++;// 存在缺陷？？复制构造函数没有写出来，是缺省的，就不会让矩形数目+1————但析构函数还是在正常工作？
                     // 应该补写复制构造函数使其增加对应static int
     nTotalArea += w * h;    
 }

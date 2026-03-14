@@ -28,7 +28,8 @@ public:
         else v = 9;
     }
 };
-void PrintAndDouble(Sample o)
+void PrintAndDouble(Sample o)// 这里是关键的，因为b虽然因为a.check是true而b.v=22
+                             // 但b.check=false，因此b复制构造函数创建的o就是9
 {
 	cout << o.v;
 	cout << endl;
@@ -37,6 +38,7 @@ int main()
 {
 	Sample a(5);
 	Sample b = a;
+    cout << b.v << endl;
 	PrintAndDouble(b);
 	Sample c = 20;
 	PrintAndDouble(c);

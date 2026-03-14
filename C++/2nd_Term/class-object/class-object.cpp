@@ -27,6 +27,8 @@ public:                // 公有接口：外界通过它们来操作钟表
             cout << "无效时间！" << endl;
         }
     }
+    Clock (int h , int m):hour(h), minute(m), second(42){ }
+    Clock (){ }
 
     void showTime() {
         cout << hour << ":" << minute << ":" << second << endl;
@@ -35,7 +37,7 @@ public:                // 公有接口：外界通过它们来操作钟表
 
 int main() {
     Clock myClock;
-    // myClock.hour = 10;   // 错误！hour 是 private，不能直接访问
+    // myClock.hour = 10;   // 错误！hour 是 private，不能直接访问————只能在类里面访问赋值
     myClock.setTime(10, 30, 0);   // 通过公有函数设置时间
     myClock.showTime();           // 通过公有函数显示时间
     return 0;

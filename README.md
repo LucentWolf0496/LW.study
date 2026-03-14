@@ -1,2 +1,3 @@
 # LW.study
 For a beginner's studying progress
+To LucentWolf: I hope that you can just relax a little bit......

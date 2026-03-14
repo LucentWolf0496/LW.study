@@ -11,7 +11,7 @@ class Big
 public:
 	int v;
 	Base b;
-    Big (int n): v(n), b(n){}
+    Big (int n): v(n), b(n){}// 最简洁高效的构造函数写法！！！
 };
 int main()
 {

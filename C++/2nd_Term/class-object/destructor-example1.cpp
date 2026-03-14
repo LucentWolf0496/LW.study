@@ -30,6 +30,6 @@ int main(){
 // destructor
 // test
 // copy constructor
-// destructor
-// destructor
-// destructor
+// destructor————Test函数的临时变量销毁
+// destructor————局部变量c1销毁
+// destructor————全局变量c销毁

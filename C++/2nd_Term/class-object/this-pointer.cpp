@@ -16,10 +16,12 @@ class Complex {
         return * this;
     } 
 };    
+
 struct  A { 	
 	 int i;
 	 void Hello() { cout << "hello" << endl; } 
 };    
+
 int main() {
     Complex c1(1,1),c2(0,0);
     c2 = c1.AddOne();

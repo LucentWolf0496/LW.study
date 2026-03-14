@@ -9,7 +9,8 @@ class Complex {
 		Complex( double r, double i = 0);
 }; 
 
-Complex::Complex( double r, double i) { // public的构造函数，最关键，最需要理解的部分！！！
+Complex::Complex( double r, double i) { // public的构造函数，最关键，最需要理解的部分！！！————但这样写实则不好，应该用
+                                        // Complex (double r , double i): real(r) , imag(i) { }
 	real = r; imag = i;
 }
 

@@ -31,8 +31,7 @@ Apple Fun(const Apple & a) {
 	return a;
 }
 
-int main()
-{
+int main(){
 	Apple * p = new Apple[4];
 	Fun(p[2]);
 	Apple p1,p2;
