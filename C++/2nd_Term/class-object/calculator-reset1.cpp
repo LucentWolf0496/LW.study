@@ -23,7 +23,7 @@ Complex operator+( const Complex & a, const Complex & b){
 
 Complex Complex::operator-(const Complex & c){
  	return Complex(real - c.real, imag - c.imag); //返回一个临时对象
-}// 写全局函数+或者类中的函数-都是可以的
+}// 写全局函数+或者类中的函数-都是可以的,类中函数少一个self参数，全局函数参数拉满
 
 class Array {// 对[]重载
 private:
