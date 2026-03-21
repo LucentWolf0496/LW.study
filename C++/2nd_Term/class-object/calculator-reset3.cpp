@@ -5,8 +5,13 @@ class CArray{
     int size; //数组元素的个数
     int *ptr; //指向动态分配的数组
 public:
-    CArray(int s = 0);     //s代表数组元素的个数
-    CArray(CArray & a);
+    CArray(int s = 0):ptr(NULL) , size(0) { if (s > 0) ptr = new int[s](); }    //s代表数组元素的个数
+    CArray(const CArray & a) : size(a.size), ptr(nullptr) {
+        if (a.ptr) {
+            ptr = new int[size];
+            memcpy(ptr, a.ptr, sizeof(int) * size);
+        }
+    }
     ~CArray();
     void push_back(int v); //用于在数组尾部添加一个元素v
     CArray & operator=( const CArray & a); 
@@ -40,7 +45,7 @@ CArray & CArray::operator=( const CArray & a){ //赋值号的作用是使“=”
 	memcpy( ptr,a.ptr,sizeof(int)*a.size);	
 	size = a.size;
  	return * this;
-} // CArray & CArray::operator=( const CArray & a)
+}
 
 void CArray::push_back(int v){  //在数组尾部添加一个元素
     if(ptr) { 
@@ -51,7 +56,8 @@ void CArray::push_back(int v){  //在数组尾部添加一个元素
     }
     else  //数组本来是空的
    	    ptr = new int[1];
-    ptr[size++] = v; //加入新的数组元素
+    ptr[size] = v; //加入新的数组元素
+    size ++;
 }
 
 int main() {  //要编写可变长整型数组类，使之能如下使用：

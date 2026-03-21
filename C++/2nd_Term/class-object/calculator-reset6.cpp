@@ -16,8 +16,8 @@ class CDemo {
 	    CDemo & operator++();      //用于前置形式
 	    CDemo operator++( int );   //用于后置形式
         operator int ( ) { return n; }
-        friend CDemo & operator--(CDemo & );
-        friend CDemo operator--(CDemo & ,int);    
+        CDemo & operator--();
+        CDemo operator--(int);    
 };
 
 CDemo & CDemo::operator++(){ //前置 ++
@@ -31,14 +31,14 @@ CDemo CDemo::operator++( int k ){ //后置 ++
 	return tmp; //返回修改前的对象
 } // s++即为: s.operator++(0);
 
-CDemo & operator--(CDemo & d) {//前置--
- 	d.n--;
-	return d; 	  
+CDemo & CDemo::operator--() {//前置--
+ 	n--;
+	return *this; 	  
 } //--s即为: operator--(s);
 
-CDemo operator--(CDemo & d,int) {//后置--
- 	CDemo tmp(d);
-	d.n --;
+CDemo CDemo::operator--(int) {//后置--
+ 	CDemo tmp(*this);
+	n --;
 	return tmp;  
 } //s--即为: operator--(s, 0);
 
@@ -54,3 +54,5 @@ int main(){
 	cout << d << endl;
 	return 0;
 }
+// 输出1：5 6 7 7
+// 输出2：7 6 5 5 

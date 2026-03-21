@@ -4,7 +4,7 @@ class MyInt
 { 
 	int nVal; 
 	public: 
-	MyInt( int n) { nVal = n ;}
+	MyInt( int n) :nVal(n) {  }
 // 在此处补充你的代码
     operator int(){
         return nVal;

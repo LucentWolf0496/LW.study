@@ -27,6 +27,7 @@ public:
         os << s.p;
         return os;
     }
+
     MyString & operator=(const MyString &s){
         char * p0 = s.p;
         if( p0) {

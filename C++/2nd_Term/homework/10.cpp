@@ -68,7 +68,7 @@ public:
         return *this;
     }
     // 重载 []，返回行指针
-    int * operator[](int i) {
+    int *& operator[](int i) {
         return data[i];
     }
     // 重载 ()，访问元素

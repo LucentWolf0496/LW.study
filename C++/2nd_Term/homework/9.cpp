@@ -8,10 +8,7 @@ class Point {
 		Point() { };
 // 在此处补充你的代码
     friend istream & operator>>(istream & is , Point & x0){
-        int p , q;
-        is >> p >> q;
-        x0.x = p;
-        x0.y = q;
+        is >> x0.x >> x0.y;
         return is;
     }
     friend ostream & operator<<(ostream & os , Point & x0){
