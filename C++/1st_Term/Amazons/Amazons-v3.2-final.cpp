@@ -931,6 +931,10 @@ int PartitionScore(const vector<vector<int>> &table , int botColor) {
 // 函数26：回溯式alpha-beta剪枝
 double ABSearch(vector<vector<int>> &table , int depth , 
     double alpha , double beta , bool isMaximizing , int currentRound) {// isMaxmizing：是bot就最大bot分数，是人类就最小bot分数
+// α：MAX 方目前能找到的最佳值（下界）。在 MAX 节点，α 表示当前已知的最大值；
+// 在 MIN 节点，α 继承自父节点，表示 MAX 方已经保证至少能得到 α。
+// β：MIN 方目前能找到的最差值（上界）。在 MIN 节点，β 表示当前已知的最小值；
+// 在 MAX 节点，β 继承自父节点，表示 MIN 方已经保证最多能让 MAX 得到 β。
     if(checkTime(gameRound)) return evaluate(table , botColor , currentRound);
     if (depth == 0) return evaluate(table , botColor , currentRound);// 截止条件
     int currentColor = (isMaximizing ? botColor : (3 - botColor));
@@ -958,38 +962,38 @@ double ABSearch(vector<vector<int>> &table , int depth ,
         reverse(scoredMoves.begin() , scoredMoves.end());
     }
 
-    if (isMaximizing) {// bot行动，让bot分数最大化
+    if (isMaximizing) {// bot行动，让bot分数最大化————MAX节点（注意：isMaxmizing交替轮换）
         double maxEval = -200000.0;// 虚设最小值取出最大值
         for (int i = 0 ; i < min(20 , n) ; i ++) {
             Move Amove = scoredMoves[i].move;
             table[Amove.x0][Amove.y0] = 0;// 模拟行动
             table[Amove.x1][Amove.y1] = currentColor;
             table[Amove.x2][Amove.y2] = 3;
-            double eval = ABSearch(table , depth - 1 , alpha , beta , false , currentRound + 1);// 递归，isMaxmizing交替轮换
+            double eval = ABSearch(table , depth - 1 , alpha , beta , false , currentRound + 1);// 递归，下传alpha，beta
             table[Amove.x2][Amove.y2] = 0;// 回溯，不传棋盘，效率高
             table[Amove.x1][Amove.y1] = 0; 
             table[Amove.x0][Amove.y0] = currentColor;
             maxEval = max(maxEval , eval);// 更新与剪枝
-            alpha = max(alpha , eval);// 更新
-            if (beta <= alpha) {// 剪枝
+            alpha = max(alpha , eval);// 更新，MAX节点更新传上来的alpha，beta保持不变
+            if (alpha >= beta) {// 剪枝
                 break; 
             }
         }
         return maxEval;
     }
-    else {// 人类行动，让bot分数最小化
+    else {// 人类行动，让bot分数最小化————MIN节点
         double minEval = 200000.0;// 虚设最大值取出最小值
         for (int i = 0 ; i < min(20 , n) ; i ++) {
             Move Amove = scoredMoves[i].move;
             table[Amove.x0][Amove.y0] = 0;// 模拟行动
             table[Amove.x1][Amove.y1] = currentColor;
             table[Amove.x2][Amove.y2] = 3;
-            double eval = ABSearch(table , depth - 1 , alpha , beta , true , currentRound + 1);// 递归
+            double eval = ABSearch(table , depth - 1 , alpha , beta , true , currentRound + 1);// 递归，下传alpha，beta
             table[Amove.x2][Amove.y2] = 0;// 回溯
             table[Amove.x1][Amove.y1] = 0;
             table[Amove.x0][Amove.y0] = currentColor;
             minEval = min(minEval , eval);// 更新与剪枝
-            beta = min(beta , eval);// 更新
+            beta = min(beta , eval);// 更新，MIN节点更新传上来的beta，alpha保持不变
             if (beta <= alpha) {// 剪枝
                 break;
             }
