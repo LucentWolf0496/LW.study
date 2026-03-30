@@ -384,6 +384,7 @@ def cornersHeuristic(state, problem):
     h_sum = 0
 
     "*** YOUR CODE HERE ***"
+    
     return h_sum # Default to trivial solution
 
 

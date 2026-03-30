@@ -73,59 +73,62 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def depthFirstSearch(problem):
-    """
-    Search the deepest nodes in the search tree first.
+def depthFirstSearch(problem):#依旧是熟悉的递归实现才是正统的DFS，BFS则是队列FIFO
+    visited = set()
+    start = problem.getStartState()
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
+    def dfs(state, actions):
+        if problem.isGoalState(state):
+            return actions
+        for t in problem.getSuccessors(state):
+            nextState = t[0]
+            action = t[1]
+            if nextState not in visited:
+                visited.add(nextState)
+                result = dfs(nextState, actions + [action])
+                return result
 
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
-
+    visited.add(start)
+    return dfs(start, [])
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
-    
-#! 例题答案如下
-# def breadthFirstSearch(problem):
-#     """Search the shallowest nodes in the search tree first."""
-#     #python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs --frameTime 0
-#     #python pacman.py -l bigMaze -p SearchAgent -a fn=bfs -z .5 --frameTime 0
-#     "*** YOUR CODE HERE ***"
+    Frontier = util.Queue()
+    Visited = []
+    Frontier.push( (problem.getStartState(), []) )
+    Visited.append( problem.getStartState() )
 
-#     Frontier = util.Queue()
-#     Visited = []
-#     Frontier.push( (problem.getStartState(), []) )
-#     #print 'Start',problem.getStartState()
-#     Visited.append( problem.getStartState() )
-
-#     while Frontier.isEmpty() == 0:
-#         state, actions = Frontier.pop()
-#         if problem.isGoalState(state):
-#             #print 'Find Goal'
-#             return actions 
-#         for next in problem.getSuccessors(state):
-#             n_state = next[0]
-#             n_direction = next[1]
-#             if n_state not in Visited:
+    while Frontier.isEmpty() == 0:
+        state, actions = Frontier.pop()
+        if problem.isGoalState(state):
+            return actions 
+        for next in problem.getSuccessors(state):
+            n_state = next[0]
+            n_direction = next[1]
+            if n_state not in Visited:
                 
-#                 Frontier.push( (n_state, actions + [n_direction]) )
-#                 Visited.append( n_state )
+                Frontier.push( (n_state, actions + [n_direction]) )
+                Visited.append( n_state )
 
 def uniformCostSearch(problem):
-    """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    slist = util.PriorityQueue()
+    slist.push((problem.getStartState() , []) , 0)
+    leastCost = {problem.getStartState() : 0}
+    visited = []
+
+    while slist.isEmpty() == 0:
+        state , actions = slist.pop()
+        if problem.isGoalState(state):
+            return actions
+        if state in visited:
+            continue
+        visited.append(state)
+        for next in problem.getSuccessors(state):
+            n_state = next[0]
+            n_direction = next[1]
+            n_cost = next[2] + leastCost[state]
+            if n_state not in leastCost or n_cost < leastCost[n_state]:
+                leastCost[n_state] = n_cost
+                slist.push((n_state , actions + [n_direction]) , n_cost)
 
 
 def nullHeuristic(state, problem=None):
@@ -136,9 +139,27 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    slist = util.PriorityQueue()
+    first = problem.getStartState()
+    slist.push((first , []) , 0)
+    leastCost = {first : 0}
+    visited = []
+
+    while slist.isEmpty() == 0:
+        state , actions = slist.pop()
+        if problem.isGoalState(state):
+            return actions
+        if state in visited:
+            continue
+        visited.append(state)
+        for next in problem.getSuccessors(state):
+            n_state = next[0]
+            n_direction = next[1]
+            n_cost = next[2] + leastCost[state]
+            if n_state not in leastCost or n_cost < leastCost[n_state]:
+                leastCost[n_state] = n_cost
+                n_cost2 = n_cost + heuristic(n_state, problem)
+                slist.push((n_state , actions + [n_direction]) , n_cost2)
 
 # Abbreviations
 bfs = breadthFirstSearch
