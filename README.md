@@ -1,2 +1,2 @@
 # LW.study
-A beginner's work————To LucentWolf: I hope you can just relax a little bit......
+A beginner's work

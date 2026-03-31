@@ -290,28 +290,12 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
 
     def getStartState(self):
-        """
-        Returns the start state (in your state space, not the full Pacman state
-        space)
-        """
-        "*** YOUR CODE HERE ***"
-        return (self.startingPosition, [])
-        # util.raiseNotDefined()
+        return (self.startingPosition, ())
 
     def isGoalState(self, state):
-        """
-        Returns whether this search state is a goal state of the problem.
-        """
-        "*** YOUR CODE HERE ***"
         pos = state[0]
-        Visited_Corners = state[1]
-        if pos in self.corners:
-            if pos not in Visited_Corners:
-                Visited_Corners.append(pos)
-            return len(Visited_Corners)==4
-        else:
-            return False 
-        # util.raiseNotDefined()
+        visited_corners = state[1]
+        return len(visited_corners) == 4
 
     def getSuccessors(self, state):
         """
@@ -323,31 +307,21 @@ class CornersProblem(search.SearchProblem):
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
+        x, y = state[0]
+        visited_corners = state[1]
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-            # Add a successor state to the successor list if the action is legal
-            # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
-            "*** YOUR CODE HERE ***"
-            x,y = state[0]
-            Visited_Corners = state[1]
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
-            next_node = (nextx, nexty)
-            hitsWall = self.walls[nextx][nexty]
-            if not hitsWall:
-                sucVCorners = list(Visited_Corners) 
-                if next_node in self.corners:
-                    if next_node not in sucVCorners:
-                        sucVCorners.append( next_node )
-                successor = ((next_node, sucVCorners), action, 1)
-                successors.append(successor)
+            if not self.walls[nextx][nexty]:
+                next_pos = (nextx, nexty)
+                if next_pos in self.corners and next_pos not in visited_corners:
+                    new_visited = visited_corners + (next_pos,)
+                else:
+                    new_visited = visited_corners
+                successors.append(((next_pos, new_visited), action, 1))
 
-        self._expanded += 1 # DO NOT CHANGE
+        self._expanded += 1
         return successors
 
     def getCostOfActions(self, actions):
@@ -381,11 +355,46 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     node = state[0]
     Visited_Corners = state[1]
-    h_sum = 0
+    leftCorners = []
+    for i in corners:
+        if i not in Visited_Corners:
+            leftCorners.append(i)
+    num = len(leftCorners)
+    result = 0
+    least = 999999
 
-    "*** YOUR CODE HERE ***"
+    def dis(x , y):
+        return abs(x[0] - y[0]) + abs(x[1] - y[1])
     
-    return h_sum # Default to trivial solution
+    if num == 0:
+        result = 0
+    elif num == 1:
+        result = dis(node , leftCorners[0])
+    elif num == 2:
+        a , b = leftCorners
+        table = [(a,b),(b,a)]
+        for i in table:
+            least = min(dis(node , i[0]) + dis(i[0] , i[1]) , least)
+        result = least
+    elif num == 3:
+        a , b , c = leftCorners
+        table = [(a,b,c),(a,c,b),(b,a,c),(b,c,a),(c,a,b),(c,b,a)]
+        for i in table:
+            least = min(dis(node , i[0]) + dis(i[0] , i[1]) + dis(i[1] , i[2]) , least)
+        result = least
+    else:
+        a , b , c , d = leftCorners
+        table = [(a,b,c,d),(a,b,d,c),(a,c,b,d),(a,c,d,b),
+            (a,d,b,c),(a,d,c,b),(b,a,c,d),(b,a,d,c),
+            (b,c,a,d),(b,c,d,a),(b,d,a,c),(b,d,c,a),
+            (c,a,b,d),(c,a,d,b),(c,b,a,d),(c,b,d,a),
+            (c,d,a,b),(c,d,b,a),(d,a,b,c),(d,a,c,b),
+            (d,b,a,c),(d,b,c,a),(d,c,a,b),(d,c,b,a)]
+        for i in table:
+            least = min(dis(node , i[0]) + dis(i[0] , i[1]) + dis(i[1] , i[2]) + dis(i[2] , i[3]) , least)
+        result = least
+            
+    return result # Default to trivial solution
 
 
 class AStarCornersAgent(SearchAgent):

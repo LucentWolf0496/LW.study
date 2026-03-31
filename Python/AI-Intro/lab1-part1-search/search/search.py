@@ -113,7 +113,7 @@ def uniformCostSearch(problem):
     slist = util.PriorityQueue()
     slist.push((problem.getStartState() , []) , 0)
     leastCost = {problem.getStartState() : 0}
-    visited = []
+    visited = set()
 
     while slist.isEmpty() == 0:
         state , actions = slist.pop()
@@ -121,7 +121,7 @@ def uniformCostSearch(problem):
             return actions
         if state in visited:
             continue
-        visited.append(state)
+        visited.add(state)
         for next in problem.getSuccessors(state):
             n_state = next[0]
             n_direction = next[1]
