@@ -16,7 +16,7 @@
 // clients.dat”	要创建的文件的名字
 // ios::out 		文件打开方式
 // ios:out    	输出到文件, 删除原有内容
-// ios::app  	输出到文件, 保留原有内容，总是在尾部添加
+// ios::app  	输出到文件, 保留原有内容，总是在尾部添加（append简写）
 // ios::binary 以二进制文件格式打开文件
 
 // 文件名可以给出绝对路径，也可以给相对路径。没有交代路径信息，就是在当前文件夹下找文件
@@ -27,6 +27,12 @@
 // if（!fout）{ 
 //     cout << “File open error!”<<endl;
 // }
+
+// 文件的读写指针
+// 对于输入文件,有一个读指针;
+// 对于输出文件,有一个写指针;
+// 对于输入输出文件,有一个读写指针;
+// 标识文件操作的当前位置, 该指针在哪里,读写操作就在哪里进行。
 
 #include <fstream>
 #include <vector>
@@ -44,12 +50,12 @@ int main(){
     fout.seekp(location,ios::end); //从尾部数location
 
     ifstream  fin("a1.in",ios::in|ios::ate); //打开文件，定位文件指针到文件尾
-    long location = fin.tellg();   //取得读指针的位置
-    location = 10L;
-    fin.seekg(location);  // 将读指针移动到第10个字节处
-    fin.seekg(location,ios::beg); //从头数location
-    fin.seekg(location,ios::cur); //从当前位置数location
-    fin.seekg(location,ios::end); //从尾部数location
+    long location2 = fin.tellg();   //取得读指针的位置
+    location2 = 10L;
+    fin.seekg(location2);  // 将读指针移动到第10个字节处
+    fin.seekg(location2,ios::beg); //从头数location
+    fin.seekg(location2,ios::cur); //从当前位置数location
+    fin.seekg(location2,ios::end); //从尾部数location
 
     vector<int> v;  //v是一个可变长整型数组
 	ifstream srcFile("in.txt",ios::in);

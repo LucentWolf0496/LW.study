@@ -73,23 +73,26 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def depthFirstSearch(problem):#依旧是熟悉的递归实现才是正统的DFS，BFS则是队列FIFO
+def depthFirstSearch(problem):
     visited = set()
     start = problem.getStartState()
 
-    def dfs(state, actions):
+    def dfs(state , actions):
         if problem.isGoalState(state):
             return actions
-        for t in problem.getSuccessors(state):
-            nextState = t[0]
-            action = t[1]
-            if nextState not in visited:
-                visited.add(nextState)
-                result = dfs(nextState, actions + [action])
-                return result
+        for next in problem.getSuccessors(state):
+            next_state = next[0]
+            action = next[1]
+            if next_state not in visited:
+                visited.add(next_state) # 压栈加入状态
+                result = dfs(next_state , actions + [action]) # 继续dfs递归调用
+                if result is not None: # 空置保护
+                    return result
+                visited.remove(next_state) # 回溯继续循环其他邻接节点
+        return None # 空置保护
 
     visited.add(start)
-    return dfs(start, [])
+    return dfs(start , [])
 
 def breadthFirstSearch(problem):
     Frontier = util.Queue()
